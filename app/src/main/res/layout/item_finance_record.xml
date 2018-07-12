@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zucc.wsq.a31501284.wonderfulwsq.widget.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="72dp">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_finance_type_traffic" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/img"
+            android:layout_toRightOf="@+id/img"
+            android:text="行车交通"
+            android:textColor="@color/color_schedule_title_text"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img"
+            android:layout_toRightOf="@+id/img"
+            android:text="2018-07-07"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_12sp" />
+
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="-5000.0"
+            android:textColor="@color/crimson"
+            android:textSize="16dp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_delete"
+            android:clickable="true" />
+
+    </LinearLayout>
+
+</com.zucc.wsq.a31501284.wonderfulwsq.widget.SwipeItemLayout>

@@ -49,6 +49,7 @@
     <string name="menu_event_set">Events</string>
     <string name="menu_add_event_set">Add event list</string>
     <string name="menu_no_category">Unclassified </string>
+    <string name="menu_finance">Finance</string>
 
     <!--event.set-->
     <string name="event_set_list_name">List name</string>
@@ -67,5 +68,9 @@
     <string name="click_input_location">Click to input location</string>
     <string name="add_location">Add spot</string>
     <string name="select_event_set">Choose events</string>
+    <string name="title_activity_finance">FinanceActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

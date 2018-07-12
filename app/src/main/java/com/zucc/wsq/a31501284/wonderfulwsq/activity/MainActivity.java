@@ -28,6 +28,7 @@ import com.zucc.wsq.a31501284.wonderfulwsq.common.bean.EventSet;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.listener.OnTaskFinishedListener;
 import com.zucc.wsq.a31501284.wonderfulwsq.fragment.EventSetFragment;
 import com.zucc.wsq.a31501284.wonderfulwsq.fragment.ScheduleFragment;
+import com.zucc.wsq.a31501284.wonderfulwsq.fragment.financeFragment;
 import com.zucc.wsq.a31501284.wonderfulwsq.task.eventset.LoadEventSetTask;
 
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private List<EventSet> mEventSets;
 
     private BaseFragment mScheduleFragment, mEventSetFragment;
+    private financeFragment mFinanceFragment;
     private EventSet mCurrentEventSet;
     private AddEventSetBroadcastReceiver mAddEventSetBroadcastReceiver;
 
@@ -72,6 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         searchViewById(R.id.llMenuSchedule).setOnClickListener(this);
         searchViewById(R.id.llMenuNoCategory).setOnClickListener(this);
         searchViewById(R.id.tvMenuAddEventSet).setOnClickListener(this);
+        searchViewById(R.id.llMenuFinance).setOnClickListener(this);
         initUi();
         initEventSetList();
         gotoScheduleFragment();
@@ -153,6 +156,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mCurrentSelectDay = day;
     }
 
+    //菜单点击事件
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -170,42 +174,74 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.tvMenuAddEventSet:
                 gotoAddEventSetActivity();
                 break;
+            case R.id.llMenuFinance:
+                gotoFinanceFragment();
+                break;
         }
     }
 
+    //跳转 日历
     private void gotoScheduleFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+
         if (mScheduleFragment == null) {
             mScheduleFragment = ScheduleFragment.getInstance();
             ft.add(R.id.flMainContainer, mScheduleFragment);
         }
         if (mEventSetFragment != null)
             ft.hide(mEventSetFragment);
+        if (mFinanceFragment != null)
+            ft.hide(mFinanceFragment);
         ft.show(mScheduleFragment);
         ft.commit();
+
         llTitleDate.setVisibility(View.VISIBLE);
         tvTitle.setVisibility(View.GONE);
         dlMain.closeDrawer(Gravity.START);
     }
 
+    //跳转 收支
+    private void gotoFinanceFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+
+        mFinanceFragment=new financeFragment();
+        ft.add(R.id.flMainContainer,mFinanceFragment);
+
+        if (mEventSetFragment != null)
+            ft.hide(mEventSetFragment);
+        ft.hide(mScheduleFragment);
+        ft.show(mFinanceFragment);
+
+        ft.commit();
+        resetTitleText("收支情况");
+        dlMain.closeDrawer(Gravity.START);
+    }
+
+    //跳转 事件集
     public void gotoEventSetFragment(EventSet eventSet) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+
         if (mCurrentEventSet != eventSet || eventSet.getId() == 0) {
             if (mEventSetFragment != null)
                 ft.remove(mEventSetFragment);
             mEventSetFragment = EventSetFragment.getInstance(eventSet);
             ft.add(R.id.flMainContainer, mEventSetFragment);
         }
+        if (mFinanceFragment != null)
+            ft.hide(mFinanceFragment);
         ft.hide(mScheduleFragment);
         ft.show(mEventSetFragment);
+
         ft.commit();
         resetTitleText(eventSet.getName());
         dlMain.closeDrawer(Gravity.START);
         mCurrentEventSet = eventSet;
     }
 
+    //跳转 添加事件集
     private void gotoAddEventSetActivity() {
         startActivityForResult(new Intent(this, AddEventSetActivity.class), ADD_EVENT_SET_CODE);
     }

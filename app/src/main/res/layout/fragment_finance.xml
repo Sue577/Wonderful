@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_finance"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <!--<com.zucc.wsq.a31501284.wonderfulwsq.widget.PieChart-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:id="@+id/piechart"-->
+        <!--android:background="@color/white"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="本月结余"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvBalanceMonth"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="0.0"
+            android:textColor="@color/white"
+            android:textSize="60dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="支出"
+        android:textColor="@color/color_schedule_title_text"
+        android:textSize="@dimen/text_size_16sp" />
+
+    <!--<include layout="@layout/item_finance_record"/>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvPayList"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/colorBackground" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="收入"
+        android:textColor="@color/color_schedule_title_text"
+        android:textSize="@dimen/text_size_16sp" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvOutcomeList"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/colorBackground" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btAddFinanceRecord"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="增加记录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</LinearLayout>
+
