@@ -43,6 +43,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     public static int ADD_EVENT_SET_CODE = 1;
     public static String ADD_EVENT_SET_ACTION = "action.add.event.set";
+    public static int ADD_FINANCE_RECORD_CODE = 1;
+    public static String ADD_FINANCE_RECORD_ACTION = "action.add.finance.record";
 
     private DrawerLayout dlMain;
     private LinearLayout llTitleDate;
@@ -156,7 +158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mCurrentSelectDay = day;
     }
 
-    //菜单点击事件
+    //菜单点击事件+收支中按钮
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -177,10 +179,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.llMenuFinance:
                 gotoFinanceFragment();
                 break;
+            case R.id.btAddFinanceRecord:
+                gotoAddFinanceRecordActivity();
+                break;
         }
     }
 
-    //跳转 日历
+    //跳转 添加收支记录Activity
+    public void gotoAddFinanceRecordActivity() {
+        Toast.makeText(MainActivity.this, "狗子来记一笔吧", Toast.LENGTH_SHORT).show();
+        startActivityForResult(new Intent(this, AddFinanceRecordActivity.class), ADD_FINANCE_RECORD_CODE);
+    }
+
+    //切换 日历fragment
     private void gotoScheduleFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_NONE);
@@ -201,7 +212,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         dlMain.closeDrawer(Gravity.START);
     }
 
-    //跳转 收支
+    //切换 收支Fragment
     private void gotoFinanceFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_NONE);
@@ -217,9 +228,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ft.commit();
         resetTitleText("收支情况");
         dlMain.closeDrawer(Gravity.START);
+
     }
 
-    //跳转 事件集
+    //切换 事件集Fragment
     public void gotoEventSetFragment(EventSet eventSet) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_NONE);
@@ -241,7 +253,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mCurrentEventSet = eventSet;
     }
 
-    //跳转 添加事件集
+    //跳转 添加事件集Activity
     private void gotoAddEventSetActivity() {
         startActivityForResult(new Intent(this, AddEventSetActivity.class), ADD_EVENT_SET_CODE);
     }

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/img"
             android:layout_toRightOf="@+id/img"
-            android:text="行车交通"
+            android:text="@string/finance_type_traffic"
             android:textColor="@color/color_schedule_title_text"
             android:textSize="@dimen/text_size_16sp" />
 

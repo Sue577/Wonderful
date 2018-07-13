@@ -44,6 +44,16 @@
     <string name="schedule_hide_finish_task">Hide completed</string>
     <string name="schedule_delete_this_schedule">Delete the schedule?</string>
 
+    <!--finance-->
+    <string name="finance_record_title">Add finance record</string>
+    <string name="finance_input_price">Input how much money</string>
+    <string name="finance_type_food">food</string>
+    <string name="finance_type_clothes">clothes</string>
+    <string name="finance_type_traffic">traffice</string>
+    <string name="finance_type_work">work</string>
+    <string name="finance_type_invest">invest</string>
+    <string name="finance_type_pocketmoney">pocketmoney</string>
+
     <!--menu-->
     <string name="menu_schedule">Schedule</string>
     <string name="menu_event_set">Events</string>

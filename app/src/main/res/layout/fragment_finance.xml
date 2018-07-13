@@ -78,6 +78,7 @@
 
         <Button
             android:id="@+id/btAddFinanceRecord"
+            android:onClick="onClick"
             android:layout_width="350dp"
             android:layout_height="40dp"
             android:background="@color/colorPrimary"

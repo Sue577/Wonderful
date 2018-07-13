@@ -45,6 +45,16 @@
     <string name="schedule_hide_finish_task">隐藏已完成任务</string>
     <string name="schedule_delete_this_schedule">是否删除该行程？</string>
 
+    <!--finance-->
+    <string name="finance_record_title">添加收支记录</string>
+    <string name="finance_input_price">输入您的金额（单位：元）</string>
+    <string name="finance_type_food">餐饮支出</string>
+    <string name="finance_type_clothes">衣服支出</string>
+    <string name="finance_type_traffic">交通支出</string>
+    <string name="finance_type_work">工作收入</string>
+    <string name="finance_type_invest">投资收入</string>
+    <string name="finance_type_pocketmoney">零花钱</string>
+
     <!--menu-->
     <string name="menu_schedule">日程</string>
     <string name="menu_event_set">事件集</string>

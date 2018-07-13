@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWrite"
+    android:fitsSystemWindows="true">
+
+    <include
+        layout="@layout/simple_title_bar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWrite"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="收支类别"
+                android:textSize="@dimen/text_size_16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/btFinanceTypeWork"
+                android:onClick="onClick"
+                android:layout_width="75dp"
+                android:layout_height="68dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:drawableTop="@mipmap/ic_finance_type_work"
+                android:text="@string/finance_type_work"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.133"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/btFinanceTypePocketmoney"
+                android:onClick="onClick"
+                android:layout_width="75dp"
+                android:layout_height="68dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:drawableTop="@mipmap/ic_finance_type_pocketmoney"
+                android:text="@string/finance_type_pocketmoney"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.863"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/btFinanceTypeTraffic"
+                android:onClick="onClick"
+                android:layout_width="75dp"
+                android:layout_height="68dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:drawableTop="@mipmap/ic_finance_type_traffic"
+                android:text="@string/finance_type_traffic"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.863"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.31" />
+
+            <Button
+                android:id="@+id/btFinanceTypeInvest"
+                android:onClick="onClick"
+                android:layout_width="75dp"
+                android:layout_height="68dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:drawableTop="@mipmap/ic_finance_type_invest"
+                android:text="@string/finance_type_invest"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/btFinanceTypeClothes"
+                android:onClick="onClick"
+                android:layout_width="75dp"
+                android:layout_height="68dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:drawableTop="@mipmap/ic_finance_type_clothes"
+                android:text="@string/finance_type_clothes"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.31" />
+
+            <Button
+                android:id="@+id/btFinanceTypeFood"
+                android:onClick="onClick"
+                android:layout_width="75dp"
+                android:layout_height="68dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:drawableTop="@mipmap/ic_finance_type_food"
+                android:text="@string/finance_type_food"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.133"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.31" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/color_schedule_line"/>
+
+        <LinearLayout
+            android:id="@+id/llFinanceType"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/schedule_item_size"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivScheduleEventSetIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_16dp"
+                android:src="@mipmap/ic_detail_category"/>
+
+            <TextView
+                android:id="@+id/tvFinanceType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_12dp"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_weight="1"
+                android:background="@color/colorTranslate"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="收支类别"
+                android:textColor="@color/color_schedule_text"
+                android:textSize="@dimen/text_size_16sp"/>
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="@dimen/space_12dp"-->
+                <!--android:src="@mipmap/ic_detail_arrow_normal"/>-->
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/color_schedule_line"/>
+
+        <LinearLayout
+            android:id="@+id/llFinanceTime"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/schedule_item_size"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_16dp"
+                android:src="@mipmap/ic_detail_clock"/>
+
+            <TextView
+                android:id="@+id/tvFinanceTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_12dp"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_weight="1"
+                android:background="@color/colorTranslate"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="2018-7-10 14:00"
+                android:textColor="@color/color_schedule_text"
+                android:textSize="@dimen/text_size_16sp"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/color_schedule_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivRemarkIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_16dp"
+                android:src="@mipmap/ic_detail_remarks" />
+
+
+            <EditText
+                android:id="@+id/etInputPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_12dp"
+                android:layout_marginBottom="@dimen/space_6dp"
+                android:layout_marginTop="@dimen/space_6dp"
+                android:layout_weight="0.86"
+                android:background="@drawable/schedule_input_edit_text"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:hint="@string/finance_input_price"
+                android:lines="1"
+                android:padding="@dimen/space_6dp"
+                android:textColor="@color/color_schedule_title_text"
+                android:textColorHint="@color/color_text_grey" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_12dp"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:background="@color/colorTranslate"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="元"
+                android:textColor="@color/color_schedule_text"
+                android:textSize="@dimen/text_size_16sp" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/color_schedule_line"/>
+
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

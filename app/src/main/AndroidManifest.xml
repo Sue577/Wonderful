@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".activity.ScheduleDetailActivity" />
         <activity android:name=".activity.AddEventSetActivity" />
+        <activity android:name=".activity.AddFinanceRecordActivity"></activity>
     </application>
 
 </manifest>
