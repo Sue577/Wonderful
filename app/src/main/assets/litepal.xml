@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<litepal>
+<dbname value ="Record"></dbname>
+<version value="1"></version>
+<list>
+    <mapping class="com.zucc.wsq.a31501284.wonderfulwsq.litepalData.FinanceRecord"></mapping>
+</list>
+</litepal>

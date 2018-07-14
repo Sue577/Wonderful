@@ -39,7 +39,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
 
     private View vScheduleColor;
     private EditText etScheduleTitle, etScheduleDesc;
-    private ImageView ivScheduleEventSetIcon;
+    private ImageView ivScheduleEventSetIcon,ivSchedulePhoto;
     private TextView tvScheduleEventSet, tvScheduleTime, tvScheduleLocation;
     private SelectEventSetDialog mSelectEventSetDialog;
     private SelectDateDialog mSelectDateDialog;
@@ -59,6 +59,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
         searchViewById(R.id.llScheduleEventSet).setOnClickListener(this);
         searchViewById(R.id.llScheduleTime).setOnClickListener(this);
         searchViewById(R.id.llScheduleLocation).setOnClickListener(this);
+        searchViewById(R.id.llSchedulePhoto).setOnClickListener(this);
         vScheduleColor = searchViewById(R.id.vScheduleColor);
         ivScheduleEventSetIcon = searchViewById(R.id.ivScheduleEventSetIcon);
         etScheduleTitle = searchViewById(R.id.etScheduleTitle);
@@ -66,6 +67,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
         tvScheduleEventSet = searchViewById(R.id.tvScheduleEventSet);
         tvScheduleTime = searchViewById(R.id.tvScheduleTime);
         tvScheduleLocation = searchViewById(R.id.tvScheduleLocation);
+        ivSchedulePhoto=searchViewById(R.id.ivSchedulePhoto);
     }
 
     @Override

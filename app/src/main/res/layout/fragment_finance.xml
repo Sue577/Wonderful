@@ -9,12 +9,6 @@
     android:weightSum="1">
 
 
-    <!--<com.zucc.wsq.a31501284.wonderfulwsq.widget.PieChart-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="300dp"-->
-        <!--android:id="@+id/piechart"-->
-        <!--android:background="@color/white"/>-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
@@ -66,14 +60,14 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvOutcomeList"
+        android:id="@+id/rvIncomeList"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="@color/colorBackground" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="90dp"
         android:orientation="vertical">
 
         <Button
@@ -93,7 +87,32 @@
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btRefresh"
+            android:onClick="onClick"
+            android:layout_width="73dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:text="刷新界面"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_16sp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+
     </android.support.constraint.ConstraintLayout>
 
 

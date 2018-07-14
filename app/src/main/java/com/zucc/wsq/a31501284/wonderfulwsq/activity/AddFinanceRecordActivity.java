@@ -1,5 +1,6 @@
 package com.zucc.wsq.a31501284.wonderfulwsq.activity;
 
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -13,19 +14,9 @@ import android.widget.Toast;
 
 import com.zucc.wsq.a31501284.wonderfulwsq.R;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.base.app.BaseActivity;
-import com.zucc.wsq.a31501284.wonderfulwsq.common.bean.EventSet;
-import com.zucc.wsq.a31501284.wonderfulwsq.common.bean.Schedule;
-import com.zucc.wsq.a31501284.wonderfulwsq.common.listener.OnTaskFinishedListener;
-import com.zucc.wsq.a31501284.wonderfulwsq.dialog.InputLocationDialog;
-import com.zucc.wsq.a31501284.wonderfulwsq.dialog.SelectColorDialog;
-import com.zucc.wsq.a31501284.wonderfulwsq.dialog.SelectDateDialog;
-import com.zucc.wsq.a31501284.wonderfulwsq.dialog.SelectEventSetDialog;
-import com.zucc.wsq.a31501284.wonderfulwsq.task.eventset.LoadEventSetMapTask;
-import com.zucc.wsq.a31501284.wonderfulwsq.utils.DateUtils;
+import com.zucc.wsq.a31501284.wonderfulwsq.litepalData.FinanceRecord;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddFinanceRecordActivity extends BaseActivity implements View.OnClickListener{
 
@@ -33,6 +24,9 @@ public class AddFinanceRecordActivity extends BaseActivity implements View.OnCli
     public static int ADD_FINANCE_RECORD_FINISH = 2;
     public static String FINANCE_RECORD_OBJ = "finance.record.obj";
 
+    private FinanceRecord financeRecord= new FinanceRecord();
+
+    private EditText etInputPrice;
     private TextView tvFinanceType, tvFinanceTime;
 
 
@@ -55,6 +49,10 @@ public class AddFinanceRecordActivity extends BaseActivity implements View.OnCli
         tvFinanceTime = searchViewById(R.id.tvFinanceTime);
         tvFinanceType = searchViewById(R.id.tvFinanceType);
 
+        //初始化 收支类别 时间
+        String TimeNow=getTime();
+        tvFinanceType.setText("餐饮支出");
+        tvFinanceTime.setText(TimeNow);
     }
 
 
@@ -69,73 +67,60 @@ public class AddFinanceRecordActivity extends BaseActivity implements View.OnCli
                 addFinanceRecord();
                 break;
             case R.id.btFinanceTypeClothes:
-                selectFinanceTypeClothes();
+                selectFinanceType("衣服支出","clothes",-1);
                 break;
             case R.id.btFinanceTypeFood:
-                selectFinanceTypeFood();
+                selectFinanceType("餐饮支出","food",-1);
                 break;
             case R.id.btFinanceTypeTraffic:
-                selectFinanceTypeTraffic();
+                selectFinanceType("交通支出","traffic",-1);
                 break;
             case R.id.btFinanceTypeWork:
-                selectFinanceTypeWork();
+                selectFinanceType("工作收入","work",1);
                 break;
             case R.id.btFinanceTypeInvest:
-                selectFinanceTypeInvest();
+                selectFinanceType("投资收入","invest",1);
                 break;
             case R.id.btFinanceTypePocketmoney:
-                selectFinanceTypePocketmoney();
+                selectFinanceType("零花钱","pocketmoney",1);
                 break;
         }
 
     }
 
     private void addFinanceRecord() {
+        etInputPrice=(EditText)findViewById(R.id.etInputPrice);
+        try {
+            //设置数据库表数据
+            double d= Double.parseDouble(etInputPrice.getText().toString());
+            financeRecord.setFinancePrice(d*financeRecord.getFinanceTypeId());
+            //保存数据库表数据
+            financeRecord.save();
+            Toast.makeText(this,"保存成功啦啦啦",Toast.LENGTH_SHORT).show();
 
+            //返回
+            Intent intent = new Intent();
+            setResult(ADD_FINANCE_RECORD_FINISH ,intent);
+            finish();
+        }
+        catch (Exception e){
+            Toast.makeText(this,"请输入金额!!!",Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void selectFinanceTypeClothes() {
-        Button btFinanceTypeClothes = (Button) findViewById(R.id.btFinanceTypeClothes);
-        Toast.makeText(this, btFinanceTypeClothes.getText(), Toast.LENGTH_SHORT).show();
-        String TimeNow=getTime();
-        tvFinanceType.setText("衣服支出");
-        tvFinanceTime.setText(TimeNow);
+    private void selectFinanceType(String typeName,String typeImage,int typeId) {
+        Toast.makeText(this, typeName, Toast.LENGTH_SHORT).show();
+        String timeNow=getTime();
+        tvFinanceType.setText(typeName);
+        tvFinanceTime.setText(timeNow);
+
+        //设置数据库表数据
+        financeRecord.setFinanceTypeName(typeName);
+        financeRecord.setFinanceTypeImage(typeImage);
+        financeRecord.setFinanceTypeId(typeId);
+        financeRecord.setFinanceTime(timeNow);
     }
-    private void selectFinanceTypeFood() {
-        Button btFinanceTypeFood = (Button) findViewById(R.id.btFinanceTypeFood);
-        Toast.makeText(this, btFinanceTypeFood.getText(), Toast.LENGTH_SHORT).show();
-        String TimeNow=getTime();
-        tvFinanceType.setText("餐饮支出");
-        tvFinanceTime.setText(TimeNow);
-    }
-    private void selectFinanceTypeTraffic() {
-        Button btFinanceTypeTraffic = (Button) findViewById(R.id.btFinanceTypeTraffic);
-        Toast.makeText(this, btFinanceTypeTraffic.getText(), Toast.LENGTH_SHORT).show();
-        String TimeNow=getTime();
-        tvFinanceType.setText("交通支出");
-        tvFinanceTime.setText(TimeNow);
-    }
-    private void selectFinanceTypeWork() {
-        Button btFinanceTypeWork = (Button) findViewById(R.id.btFinanceTypeWork);
-        Toast.makeText(this, btFinanceTypeWork.getText(), Toast.LENGTH_SHORT).show();
-        String TimeNow=getTime();
-        tvFinanceType.setText("工作收入");
-        tvFinanceTime.setText(TimeNow);
-    }
-    private void selectFinanceTypeInvest() {
-        Button btFinanceTypeInvest = (Button) findViewById(R.id.btFinanceTypeInvest);
-        Toast.makeText(this, btFinanceTypeInvest.getText(), Toast.LENGTH_SHORT).show();
-        String TimeNow=getTime();
-        tvFinanceType.setText("投资收入");
-        tvFinanceTime.setText(TimeNow);
-    }
-    private void selectFinanceTypePocketmoney() {
-        Button btFinanceTypePocketmoney = (Button) findViewById(R.id.btFinanceTypePocketmoney);
-        Toast.makeText(this, btFinanceTypePocketmoney.getText(), Toast.LENGTH_SHORT).show();
-        String TimeNow=getTime();
-        tvFinanceType.setText("零花钱");
-        tvFinanceTime.setText(TimeNow);
-    }
+
     public String getTime(){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

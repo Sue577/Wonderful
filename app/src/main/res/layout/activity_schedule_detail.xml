@@ -179,9 +179,56 @@
             android:layout_height="@dimen/line_height"
             android:background="@color/color_schedule_line"/>
 
+        <LinearLayout
+            android:id="@+id/llSchedulePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/schedule_item_size"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_16dp"
+                android:src="@mipmap/ic_detail_location" />
+
+            <TextView
+                android:id="@+id/tvSchedulePhoto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_12dp"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_weight="1"
+                android:background="@color/colorTranslate"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="拍照"
+                android:textColor="@color/color_schedule_text"
+                android:textSize="@dimen/text_size_16sp"/>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_12dp"
+                android:src="@mipmap/ic_detail_arrow_normal" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivSchedulePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/color_schedule_line"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -208,9 +255,8 @@
             <EditText
                 android:id="@+id/etScheduleDesc"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/ivRemarkIcon"
-                android:layout_marginBottom="@dimen/space_10dp"
                 android:layout_marginLeft="@dimen/space_10dp"
                 android:layout_marginRight="@dimen/space_10dp"
                 android:background="@drawable/bg_remark_edit_text"
@@ -220,6 +266,8 @@
                 android:textSize="@dimen/text_size_16sp"/>
 
         </RelativeLayout>
+
+
 
     </LinearLayout>
 

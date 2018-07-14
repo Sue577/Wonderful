@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     public static int ADD_EVENT_SET_CODE = 1;
     public static String ADD_EVENT_SET_ACTION = "action.add.event.set";
-    public static int ADD_FINANCE_RECORD_CODE = 1;
+    public static int ADD_FINANCE_RECORD_CODE = 2;
     public static String ADD_FINANCE_RECORD_ACTION = "action.add.finance.record";
 
     private DrawerLayout dlMain;
@@ -182,14 +182,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.btAddFinanceRecord:
                 gotoAddFinanceRecordActivity();
                 break;
+            case R.id.btRefresh:
+                Toast.makeText(MainActivity.this, "界面已刷新~", Toast.LENGTH_SHORT).show();
+                gotoFinanceFragment();
+                break;
         }
     }
 
-    //跳转 添加收支记录Activity
-    public void gotoAddFinanceRecordActivity() {
-        Toast.makeText(MainActivity.this, "狗子来记一笔吧", Toast.LENGTH_SHORT).show();
-        startActivityForResult(new Intent(this, AddFinanceRecordActivity.class), ADD_FINANCE_RECORD_CODE);
-    }
 
     //切换 日历fragment
     private void gotoScheduleFragment() {
@@ -217,9 +216,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_NONE);
 
-        mFinanceFragment=new financeFragment();
-        ft.add(R.id.flMainContainer,mFinanceFragment);
-
+        if(mFinanceFragment==null){
+            mFinanceFragment=new financeFragment();
+            ft.add(R.id.flMainContainer,mFinanceFragment);
+        }else {
+            //刷新，不叠加页面，先移除，再加回
+            ft.remove(mFinanceFragment);
+            mFinanceFragment=new financeFragment();
+            ft.add(R.id.flMainContainer,mFinanceFragment);
+        }
         if (mEventSetFragment != null)
             ft.hide(mEventSetFragment);
         ft.hide(mScheduleFragment);
@@ -258,6 +263,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         startActivityForResult(new Intent(this, AddEventSetActivity.class), ADD_EVENT_SET_CODE);
     }
 
+    //跳转 添加收支记录Activity
+    public void gotoAddFinanceRecordActivity() {
+        Toast.makeText(MainActivity.this, "狗子来记一笔吧", Toast.LENGTH_SHORT).show();
+        startActivityForResult(new Intent(this, AddFinanceRecordActivity.class), ADD_FINANCE_RECORD_CODE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -267,6 +278,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 if (eventSet != null)
                     mEventSetAdapter.insertItem(eventSet);
             }
+        }
+        else if(requestCode == ADD_FINANCE_RECORD_CODE){
+            if (resultCode == AddFinanceRecordActivity.ADD_FINANCE_RECORD_FINISH){
+                gotoFinanceFragment();
+            }
+
         }
     }
 
