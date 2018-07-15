@@ -1,6 +1,12 @@
 package com.zucc.wsq.a31501284.wonderfulwsq.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.zucc.wsq.a31501284.wonderfulwsq.BitmapToByte;
 import com.zucc.wsq.a31501284.wonderfulwsq.R;
+import com.zucc.wsq.a31501284.wonderfulwsq.SaveSD;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.base.app.BaseActivity;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.bean.EventSet;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.bean.Schedule;
@@ -23,6 +31,7 @@ import com.zucc.wsq.a31501284.wonderfulwsq.task.schedule.UpdateScheduleTask;
 import com.zucc.wsq.a31501284.wonderfulwsq.utils.DateUtils;
 import com.zucc.wsq.a31501284.wonderfulwsq.utils.JeekUtils;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,7 +113,23 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
             case R.id.llScheduleLocation:
                 showInputLocationDialog();
                 break;
+            case R.id.llSchedulePhoto:
+                openPhoto();
+                break;
         }
+    }
+    private void openPhoto(){
+        // TODO Auto-generated method stub
+        Intent intent = new Intent();// 开启Pictures画面Type设定为image
+        intent.setType("image/*");//
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+                /*
+                 * 得到新打开Activity关闭后返回的数据，你需要使用系统提供的
+                 * startActivityForResult(Intent intent,int
+                 * requestCode)方法打开新的Activity
+                 */
+        startActivityForResult(intent, 1);// 取得相片后返回本画面
+
     }
 
     private void confirm() {
@@ -159,6 +184,22 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
         } else {
             tvScheduleLocation.setText(mSchedule.getLocation());
         }
+        //获取数据库中图片,byte[] -> Bitmap
+        if(mSchedule.getPhoto()!=null){
+            byte[] photo=mSchedule.getPhoto();
+            Bitmap bmpout = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+            ivSchedulePhoto.setImageBitmap(bmpout);
+        }
+
+    }
+
+    //转换获取的图片（Bitmap）为Drawable
+    public Drawable chage_to_drawable(Bitmap bp)
+    {
+        //因为BtimapDrawable是Drawable的子类，最终直接使用bd对象即可。
+        Bitmap bm=bp;
+        BitmapDrawable bd= new BitmapDrawable(getResources(), bm);
+        return bd;
     }
 
     @Override
@@ -173,6 +214,55 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
                 }
             }
         }
+        if (requestCode == 1) {// 选取图片的返回值
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                cursor.moveToFirst();// 指向查询结果的第一个位置
+                String imgPath = cursor.getString(1); // 图片文件路径
+                String imgSize = cursor.getString(2); // 图片大小
+                String imgName = cursor.getString(3); // 图片文件名
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
+                // 此时把options.inJustDecodeBounds 设回true，即只读边不读内容
+                options.inJustDecodeBounds = true;
+                // 默认是Bitmap.Config.ARGB_8888
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
+                try {
+                    //此时不会把图片读入内存，只会获取图片宽高等信息
+                    Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
+                    //上面一句和下面的类似
+                    //Bitmap bitmap = BitmapFactory.decodeFile(imgPath,options);
+                    int heitht = options.outHeight;
+                    // 根据需要设置压缩比例
+                    int size = heitht / 800;
+                    if (size <= 0) {
+                        size = 2;
+                    }
+                   /*inSampleSize表示缩略图大小为原始图片大小的几分之一，
+                      即如果这个值为2，则取出的缩略图的宽和高都是原始图片的1/2，
+                      图片大小就为原始大小的1/4*/
+                    options.inSampleSize = size;
+                    // 设置options.inJustDecodeBounds重新设置为false
+                    options.inPurgeable = true;// 同时设置才会有效
+                    options.inInputShareable = true;//。当系统内存不够时候图片自动被回收
+                    options.inJustDecodeBounds = false;
+                    //此时图片会按比例压缩后被载入内存中
+                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
+                    SaveSD.saveBitmap(imgName,bitmap);//saveBitmap这个是我定义保存到SDcard中的方法
+                    ivSchedulePhoto.setImageBitmap(bitmap);
+                    imgPath="/sdcard/"+imgName;
+
+                    //将图片从Bitmap形式变为File形式时进行压缩,保存到数据库中
+                    mSchedule.setPhoto(BitmapToByte.saveBitmap(bitmap));
+
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     @Override

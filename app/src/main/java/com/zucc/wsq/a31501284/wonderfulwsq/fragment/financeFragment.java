@@ -92,7 +92,7 @@ public class financeFragment extends Fragment{
             }
         }
     }
-    //数据初始化
+    //测试数据初始化
     public void initTest() {
 
         Date date = new Date();

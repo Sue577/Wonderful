@@ -7,8 +7,8 @@
     android:background="@color/colorWrite"
     android:fitsSystemWindows="true">
 
-    <include
-        layout="@layout/simple_title_bar"/>
+    <include layout="@layout/simple_title_bar"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -139,6 +139,7 @@
             android:layout_height="@dimen/line_height"
             android:background="@color/color_schedule_line"/>
 
+
         <LinearLayout
             android:id="@+id/llScheduleLocation"
             android:layout_width="match_parent"
@@ -150,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_16dp"
-                android:src="@mipmap/ic_detail_location"/>
+                android:src="@mipmap/ic_detail_location" />
 
             <TextView
                 android:id="@+id/tvScheduleLocation"
@@ -164,13 +165,13 @@
                 android:lines="1"
                 android:text="图书馆"
                 android:textColor="@color/color_schedule_text"
-                android:textSize="@dimen/text_size_16sp"/>
+                android:textSize="@dimen/text_size_16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/space_12dp"
-                android:src="@mipmap/ic_detail_arrow_normal"/>
+                android:src="@mipmap/ic_detail_arrow_normal" />
 
         </LinearLayout>
 
@@ -202,7 +203,7 @@
                 android:background="@color/colorTranslate"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="拍照"
+                android:text="点击此处获取图片"
                 android:textColor="@color/color_schedule_text"
                 android:textSize="@dimen/text_size_16sp"/>
 

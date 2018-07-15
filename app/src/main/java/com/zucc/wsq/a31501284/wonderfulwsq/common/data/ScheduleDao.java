@@ -4,10 +4,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 
+import com.zucc.wsq.a31501284.wonderfulwsq.R;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.bean.Schedule;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +22,7 @@ import java.util.List;
 public class ScheduleDao {
 
     private JeekSQLiteHelper mHelper;
+    private Context context;
 
     private ScheduleDao(Context context) {
         mHelper = new JeekSQLiteHelper(context);
@@ -39,6 +45,9 @@ public class ScheduleDao {
         values.put(JeekDBConfig.SCHEDULE_MONTH, schedule.getMonth());
         values.put(JeekDBConfig.SCHEDULE_DAY, schedule.getDay());
         values.put(JeekDBConfig.SCHEDULE_EVENT_SET_ID, schedule.getEventSetId());
+        //图片
+        values.put(JeekDBConfig.SCHEDULE_PHOTO, schedule.getPhoto());
+
         long row = db.insert(JeekDBConfig.SCHEDULE_TABLE_NAME, null, values);
         db.close();
         return row > 0 ? getLastScheduleId() : 0;
@@ -77,6 +86,8 @@ public class ScheduleDao {
             schedule.setDay(cursor.getInt(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_DAY)));
             schedule.setTime(cursor.getLong(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_TIME)));
             schedule.setEventSetId(cursor.getInt(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_EVENT_SET_ID)));
+            //图片
+            schedule.setPhoto(cursor.getBlob(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_PHOTO)));
             schedules.add(schedule);
         }
         cursor.close();
@@ -150,6 +161,8 @@ public class ScheduleDao {
         values.put(JeekDBConfig.SCHEDULE_TIME, schedule.getTime());
         values.put(JeekDBConfig.SCHEDULE_DAY, schedule.getDay());
         values.put(JeekDBConfig.SCHEDULE_EVENT_SET_ID, schedule.getEventSetId());
+        //图片
+        values.put(JeekDBConfig.SCHEDULE_PHOTO, schedule.getPhoto());
         int row = db.update(JeekDBConfig.SCHEDULE_TABLE_NAME, values, String.format("%s=?", JeekDBConfig.SCHEDULE_ID), new String[]{String.valueOf(schedule.getId())});
         db.close();
         mHelper.close();
@@ -175,6 +188,8 @@ public class ScheduleDao {
             schedule.setDay(cursor.getInt(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_DAY)));
             schedule.setTime(cursor.getLong(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_TIME)));
             schedule.setEventSetId(cursor.getInt(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_EVENT_SET_ID)));
+            //图片
+            schedule.setPhoto(cursor.getBlob(cursor.getColumnIndex(JeekDBConfig.SCHEDULE_PHOTO)));
             schedules.add(schedule);
         }
         cursor.close();
@@ -182,5 +197,6 @@ public class ScheduleDao {
         mHelper.close();
         return schedules;
     }
+
 
 }

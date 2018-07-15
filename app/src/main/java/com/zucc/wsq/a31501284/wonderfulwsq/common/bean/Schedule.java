@@ -1,5 +1,13 @@
 package com.zucc.wsq.a31501284.wonderfulwsq.common.bean;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.zucc.wsq.a31501284.wonderfulwsq.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -18,6 +26,16 @@ public class Schedule implements Serializable {
     private int month;
     private int day;
     private int eventSetId;
+    //图片
+    private byte[] photo;
+    //图片获取
+    public  byte[] getPhoto() {
+        return photo;
+    }
+    //图片设置
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
 
     public int getId() {
         return id;

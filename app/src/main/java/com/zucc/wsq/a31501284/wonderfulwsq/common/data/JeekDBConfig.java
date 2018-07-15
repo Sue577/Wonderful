@@ -1,9 +1,11 @@
 package com.zucc.wsq.a31501284.wonderfulwsq.common.data;
 
+import java.io.Serializable;
+
 /**
  * Created by dell on 2018/7/11.
  */
-public interface JeekDBConfig {
+public interface JeekDBConfig  {
 
     int DATABASE_VERSION = 3;
 
@@ -35,6 +37,8 @@ public interface JeekDBConfig {
     String SCHEDULE_DAY = "day";
     String SCHEDULE_LOCATION = "location";
     String SCHEDULE_EVENT_SET_ID = "eid";
+    //图片
+    String SCHEDULE_PHOTO="photo";
 
     String SCHEDULE_TABLE_NAME = "Schedule";
 
@@ -49,7 +53,9 @@ public interface JeekDBConfig {
             + SCHEDULE_YEAR + " INTEGER, "
             + SCHEDULE_MONTH + " INTEGER, "
             + SCHEDULE_DAY + " INTEGER, "
-            + SCHEDULE_EVENT_SET_ID + " INTEGER" + ")";
+            + SCHEDULE_EVENT_SET_ID + " INTEGER, "
+            //图片
+            + SCHEDULE_PHOTO + " BLOB " + ")";
 
     String DROP_SCHEDULE_TABLE_SQL = "DROP TABLE " + SCHEDULE_TABLE_NAME;
 
