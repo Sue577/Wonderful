@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/space_20dp"
-                        android:src="@mipmap/ic_menu_schedule"/>
+                        android:src="@mipmap/ic_menu_schedule" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -57,13 +57,13 @@
                         android:layout_weight="1"
                         android:text="@string/menu_schedule"
                         android:textColor="@color/colorWrite"
-                        android:textSize="@dimen/text_size_18sp"/>
+                        android:textSize="@dimen/text_size_18sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/space_10dp"
-                        android:src="@mipmap/ic_menu_go"/>
+                        android:src="@mipmap/ic_menu_go" />
 
                 </LinearLayout>
 
@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/space_20dp"
-                            android:src="@mipmap/ic_menu_event_set"/>
+                            android:src="@mipmap/ic_menu_event_set" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -93,7 +93,7 @@
                             android:layout_weight="1"
                             android:text="@string/menu_event_set"
                             android:textColor="@color/colorWrite"
-                            android:textSize="@dimen/text_size_18sp"/>
+                            android:textSize="@dimen/text_size_18sp" />
 
                     </LinearLayout>
 
@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/space_30dp"
-                        android:src="@mipmap/ic_menu_category"/>
+                        android:src="@mipmap/ic_menu_category" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -120,25 +120,25 @@
                         android:layout_weight="1"
                         android:text="@string/menu_no_category"
                         android:textColor="@color/menu_item_text_color"
-                        android:textSize="@dimen/text_size_16sp"/>
+                        android:textSize="@dimen/text_size_16sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/space_10dp"
-                        android:src="@mipmap/ic_menu_item_go"/>
+                        android:src="@mipmap/ic_menu_item_go" />
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_height"
-                    android:background="@color/color_menu_line"/>
+                    android:background="@color/color_menu_line" />
 
                 <com.zucc.wsq.a31501284.wonderfulwsq.widget.AbsoluteRecyclerView
                     android:id="@+id/rvMenuEventSetList"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tvMenuAddEventSet"
@@ -151,9 +151,10 @@
                     android:paddingLeft="@dimen/space_30dp"
                     android:paddingTop="@dimen/space_16dp"
                     android:text="@string/menu_add_event_set"
-                    android:textColor="@color/menu_item_text_color"/>
+                    android:textColor="@color/menu_item_text_color" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/llMenuFinance"
                 android:layout_width="match_parent"
@@ -166,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/space_20dp"
-                    android:src="@mipmap/ic_menu_schedule"/>
+                    android:src="@mipmap/ic_menu_schedule" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -175,18 +176,155 @@
                     android:layout_weight="1"
                     android:text="@string/menu_finance"
                     android:textColor="@color/colorWrite"
-                    android:textSize="@dimen/text_size_18sp"/>
+                    android:textSize="@dimen/text_size_18sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/space_10dp"
-                    android:src="@mipmap/ic_menu_go"/>
+                    android:src="@mipmap/ic_menu_go" />
 
             </LinearLayout>
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_menu_border_with_arrow"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/menu_item_second_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_20dp"
+                        android:src="@mipmap/ic_menu_event_set" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_10dp"
+                        android:layout_weight="1"
+                        android:text="数据备份"
+                        android:textColor="@color/colorWrite"
+                        android:textSize="@dimen/text_size_18sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llMenuNetworkUpload"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/menu_item_second_height"
+                android:layout_marginTop="-9dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_30dp"
+                    android:src="@mipmap/ic_menu_category" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10dp"
+                    android:layout_weight="1"
+                    android:text="网络备份"
+                    android:textColor="@color/colorWrite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/space_10dp"
+                    android:src="@mipmap/ic_menu_item_go" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/color_menu_line" />
+
+            <LinearLayout
+                android:id="@+id/llMenuNetworkDownload"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/menu_item_second_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_30dp"
+                    android:src="@mipmap/ic_menu_category" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10dp"
+                    android:layout_weight="1"
+                    android:text="备份获取"
+                    android:textColor="@color/colorWrite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/space_10dp"
+                    android:src="@mipmap/ic_menu_item_go" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/color_menu_line" />
+
+            <LinearLayout
+                android:id="@+id/llMenuNetworkDelete"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/menu_item_second_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_30dp"
+                    android:src="@mipmap/ic_menu_category" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10dp"
+                    android:layout_weight="1"
+                    android:text="备份删除"
+                    android:textColor="@color/colorWrite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/space_10dp"
+                    android:src="@mipmap/ic_menu_item_go" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/color_menu_line" />
+
+        </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>

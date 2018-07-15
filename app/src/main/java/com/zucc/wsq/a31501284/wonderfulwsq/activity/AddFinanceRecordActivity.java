@@ -50,9 +50,14 @@ public class AddFinanceRecordActivity extends BaseActivity implements View.OnCli
         tvFinanceType = searchViewById(R.id.tvFinanceType);
 
         //初始化 收支类别 时间
-        String TimeNow=getTime();
+        String timeNow=getTime();
         tvFinanceType.setText("餐饮支出");
-        tvFinanceTime.setText(TimeNow);
+        tvFinanceTime.setText(timeNow);
+        //初始化 数据库数据 收支类别名 收支类别图片 收支金额正负 时间
+        financeRecord.setFinanceTypeName("餐饮支出");
+        financeRecord.setFinanceTypeImage("food");
+        financeRecord.setFinanceTypeId(-1);
+        financeRecord.setFinanceTime(timeNow);
     }
 
 

@@ -20,6 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
 import com.zucc.wsq.a31501284.wonderfulwsq.R;
 import com.zucc.wsq.a31501284.wonderfulwsq.adapter.EventSetAdapter;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.base.app.BaseActivity;
@@ -29,17 +35,30 @@ import com.zucc.wsq.a31501284.wonderfulwsq.common.listener.OnTaskFinishedListene
 import com.zucc.wsq.a31501284.wonderfulwsq.fragment.EventSetFragment;
 import com.zucc.wsq.a31501284.wonderfulwsq.fragment.ScheduleFragment;
 import com.zucc.wsq.a31501284.wonderfulwsq.fragment.financeFragment;
+import com.zucc.wsq.a31501284.wonderfulwsq.litepalData.FinanceRecord;
 import com.zucc.wsq.a31501284.wonderfulwsq.task.eventset.LoadEventSetTask;
+
+import org.bson.Document;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static com.mongodb.client.model.Projections.excludeId;
+import static com.mongodb.client.model.Projections.fields;
+import static com.mongodb.client.model.Projections.include;
 
 /**
  * Created by dell on 2018/7/11.
  */
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, OnTaskFinishedListener<List<EventSet>> {
+
+    //云端MongoDB数据库
+    MongoClientURI uri = new MongoClientURI( "mongodb://123.206.127.199:27017/WonderfulWSQ" );
+    private List<String> financeRecordJSON = new ArrayList<>();
+
 
     public static int ADD_EVENT_SET_CODE = 1;
     public static String ADD_EVENT_SET_ACTION = "action.add.event.set";
@@ -77,11 +96,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         searchViewById(R.id.llMenuNoCategory).setOnClickListener(this);
         searchViewById(R.id.tvMenuAddEventSet).setOnClickListener(this);
         searchViewById(R.id.llMenuFinance).setOnClickListener(this);
+        searchViewById(R.id.llMenuNetworkDelete).setOnClickListener(this);
+        searchViewById(R.id.llMenuNetworkDownload).setOnClickListener(this);
+        searchViewById(R.id.llMenuNetworkUpload).setOnClickListener(this);
         initUi();
         initEventSetList();
         gotoScheduleFragment();
         initBroadcastReceiver();
 
+        //初始化，将数据变成Json格式，现在有收支记录，日程记录先不弄
+        initJson();
     }
 
     private void initBroadcastReceiver() {
@@ -186,6 +210,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 Toast.makeText(MainActivity.this, "界面已刷新~", Toast.LENGTH_SHORT).show();
                 gotoFinanceFragment();
                 break;
+            case R.id.llMenuNetworkUpload:
+                Toast.makeText(MainActivity.this, "数据已备份~", Toast.LENGTH_SHORT).show();
+                //云端数据库操作 插入数据 收支记录
+                insertFinanceRecordInMongo();
+                break;
+            case R.id.llMenuNetworkDownload:
+                Toast.makeText(MainActivity.this, "网络备份已下载~", Toast.LENGTH_SHORT).show();
+                //云端数据库操作 下载所有数据 收支记录
+                getALLFinanceRecordFromMongo();
+                break;
+            case R.id.llMenuNetworkDelete:
+                Toast.makeText(MainActivity.this, "网络备份已删除~", Toast.LENGTH_SHORT).show();
+                //云端数据库操作 删除所有数据 收支记录
+                deleteAllFinanceRecordInMongo();
+                break;
         }
     }
 
@@ -233,6 +272,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ft.commit();
         resetTitleText("收支情况");
         dlMain.closeDrawer(Gravity.START);
+
+        //更新了收支记录，要将数据变成Json格式
+        initJson();
 
     }
 
@@ -326,6 +368,112 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     mEventSetAdapter.insertItem(eventSet);
             }
         }
+    }
+
+    //Json初始化
+    private void initJson() {
+        Gson gson = new Gson();
+        financeRecordJSON = new ArrayList<>();
+        //收支记录
+        List<FinanceRecord> detail = DataSupport.select("financeTypeImage","financeTypeName","financePrice","financeTime").find(FinanceRecord.class);
+        if(detail!=null) {
+            for (FinanceRecord d : detail) {
+                financeRecordJSON.add(gson.toJson(d));
+            }
+        }
+        //日程记录
+    }
+    //删除云端数据库中所有收支记录
+    private void deleteAllFinanceRecordInMongo(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    MongoClient mongoClient = new MongoClient(uri);
+                    MongoDatabase db = mongoClient.getDatabase(uri.getDatabase());
+                    //数据库中的对应collection 相当于表名
+                    MongoCollection<Document> collection= db.getCollection("financeRecord");
+                    collection.drop();
+                    mongoClient.close();
+                }finally {
+
+                }
+            }
+        }).start();
+    }
+    //获得云端数据库中所有收支记录
+    private void getALLFinanceRecordFromMongo(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+
+                MongoClient mongoClient = new MongoClient(uri);
+                MongoDatabase db = mongoClient.getDatabase(uri.getDatabase());
+                //数据库中的对应collection 相当于表名
+                MongoCollection<Document> collection= db.getCollection("financeRecord");
+                //MongoCursor<Document> cursor = collection.find().projection(eq("_id")).iterator();
+                MongoCursor<Document> cursor = collection.find().projection(fields(include("financeTypeImage","financeTypeName","financePrice","financeTime"), excludeId())).iterator();
+                try {
+                    while (cursor.hasNext()) {
+                        String json = cursor.next().toJson();
+                        FinanceRecord data= new FinanceRecord();
+                        Gson gson = new Gson();
+                        data=gson.fromJson(json, FinanceRecord.class);
+                        //    DataSupport.count().find(Data.class);
+
+                        //获取litepal数据库中收支记录
+                        int flag=1;
+                        List<FinanceRecord> detailFinance = DataSupport.select("financeTime").find(FinanceRecord.class);
+                        if(detailFinance!=null) {
+                            for (FinanceRecord d : detailFinance) {
+                                String time=d.getFinanceTime();
+                                if(time.equals(data.getFinanceTime())){//通过时间来判断是否有重复
+                                    flag=0;
+                                }
+                            }
+                        }
+                        if(flag==1){ //该记录没有重复 可以存入litepal数据库
+                            data.save();
+                        }
+
+                    }
+
+                } finally {
+                    cursor.close();
+                    mongoClient.close();
+                }
+            }
+        }).start();
+    }
+
+    //在云端数据库中插入收支记录
+    private void insertFinanceRecordInMongo(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try{
+                    MongoClient mongoClient = new MongoClient(uri);
+                    MongoDatabase db = mongoClient.getDatabase(uri.getDatabase());
+                    //数据库中的对应collection 相当于表名
+                    MongoCollection<Document> collection= db.getCollection("financeRecord");
+                    //插入一条记录
+                    //collection.insertOne(Document.parse("{\"name\":\"Alexia\",\"age\":\"23\"}"));
+                    //插入多条记录
+                    if(financeRecordJSON!=null) {
+                        for (String json : financeRecordJSON) {
+
+                            collection.insertOne(Document.parse(json));
+                        }
+                    }
+                    mongoClient.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 }

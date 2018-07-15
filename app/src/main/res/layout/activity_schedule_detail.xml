@@ -203,7 +203,7 @@
                 android:background="@color/colorTranslate"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="点击此处获取图片"
+                android:text="点击此处选择图片"
                 android:textColor="@color/color_schedule_text"
                 android:textSize="@dimen/text_size_16sp"/>
 
