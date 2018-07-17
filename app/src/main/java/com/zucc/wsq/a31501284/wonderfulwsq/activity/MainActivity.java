@@ -628,6 +628,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     if (ret == 0) {
                         Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
 
+                        //隐藏login按钮 显示logout按钮
+                        llMenuQQLogout.setVisibility(View.VISIBLE);
+                        llMenuQQLogin.setVisibility(View.GONE);
+
                         String openID = jo.getString("openid");
                         String accessToken = jo.getString("access_token");
                         String expires = jo.getString("expires_in");
@@ -708,9 +712,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (!mTencent.isSessionValid()) {
             //开始qq授权登录
             mTencent.login(MainActivity.this, scope, loginListener);
-            //隐藏login按钮 显示logout按钮
-            llMenuQQLogout.setVisibility(View.VISIBLE);
-            llMenuQQLogin.setVisibility(View.GONE);
+
         }else {
             Toast.makeText(MainActivity.this, "你已登录！", Toast.LENGTH_LONG).show();
         }

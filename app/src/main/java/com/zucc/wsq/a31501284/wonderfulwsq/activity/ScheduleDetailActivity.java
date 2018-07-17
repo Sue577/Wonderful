@@ -15,8 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapView;
+import com.mongodb.DB;
 import com.zucc.wsq.a31501284.wonderfulwsq.BitmapToByte;
-import com.zucc.wsq.a31501284.wonderfulwsq.R;
 import com.zucc.wsq.a31501284.wonderfulwsq.SaveSD;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.base.app.BaseActivity;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.bean.EventSet;
@@ -34,12 +36,15 @@ import com.zucc.wsq.a31501284.wonderfulwsq.utils.JeekUtils;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import com.zucc.wsq.a31501284.wonderfulwsq.R;
 
 /**
  * Created by dell on 2018/7/11.
  */
 
 public class ScheduleDetailActivity extends BaseActivity implements View.OnClickListener, OnTaskFinishedListener<Map<Integer, EventSet>>, SelectDateDialog.OnSelectDateListener, InputLocationDialog.OnLocationBackListener, SelectEventSetDialog.OnSelectEventSetListener {
+
+    public static int BDLocation_CODE = 1;
 
     public static int UPDATE_SCHEDULE_CANCEL = 1;
     public static int UPDATE_SCHEDULE_FINISH = 2;
@@ -68,6 +73,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
         searchViewById(R.id.llScheduleEventSet).setOnClickListener(this);
         searchViewById(R.id.llScheduleTime).setOnClickListener(this);
         searchViewById(R.id.llScheduleLocation).setOnClickListener(this);
+        searchViewById(R.id.llScheduleBDLocation).setOnClickListener(this);
         searchViewById(R.id.llSchedulePhoto).setOnClickListener(this);
         vScheduleColor = searchViewById(R.id.vScheduleColor);
         ivScheduleEventSetIcon = searchViewById(R.id.ivScheduleEventSetIcon);
@@ -116,12 +122,19 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
             case R.id.llSchedulePhoto:
                 openPhoto();
                 break;
+            case R.id.llScheduleBDLocation:
+                gotoBDLocationActivity();
+                break;
         }
+    }
+    private void gotoBDLocationActivity(){
+        startActivityForResult(new Intent(this, BDLocationActivity.class), BDLocation_CODE);
+
     }
     private void openPhoto(){
         // TODO Auto-generated method stub
         Intent intent = new Intent();// 开启Pictures画面Type设定为image
-        intent.setType("image/*");//
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
                 /*
                  * 得到新打开Activity关闭后返回的数据，你需要使用系统提供的
@@ -260,6 +273,12 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+            }
+        }
+
+        if(requestCode==BDLocation_CODE){
+            if(resultCode== BDLocationActivity.BDLocation_FINISH){
+
             }
         }
 
