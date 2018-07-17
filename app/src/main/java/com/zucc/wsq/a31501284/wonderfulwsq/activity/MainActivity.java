@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -26,6 +27,12 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.zucc.wsq.a31501284.wonderfulwsq.R;
 import com.zucc.wsq.a31501284.wonderfulwsq.adapter.EventSetAdapter;
 import com.zucc.wsq.a31501284.wonderfulwsq.common.base.app.BaseActivity;
@@ -39,6 +46,8 @@ import com.zucc.wsq.a31501284.wonderfulwsq.litepalData.FinanceRecord;
 import com.zucc.wsq.a31501284.wonderfulwsq.task.eventset.LoadEventSetTask;
 
 import org.bson.Document;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
@@ -55,6 +64,20 @@ import static com.mongodb.client.model.Projections.include;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, OnTaskFinishedListener<List<EventSet>> {
 
+    //QQ第三方登录 方法1
+    private static final String TAG = "MainActivity";
+    private static final String APP_ID = "1106975385";//官方获取的APPID1105602574 自己申请的1106975385
+    private Tencent mTencent; //qq主操作对象
+    private BaseUiListener mIUiListener;
+    private UserInfo mUserInfo;
+    //QQ第三方登录 方法2
+    private IUiListener loginListener; //授权登录监听器
+    private IUiListener userInfoListener; //获取用户信息监听器
+    private String scope; //获取信息的范围参数
+    private UserInfo userInfo; //qq用户信息
+    private String nickName;//qq用户昵称
+
+
     //云端MongoDB数据库
     MongoClientURI uri = new MongoClientURI( "mongodb://123.206.127.199:27017/WonderfulWSQ" );
     private List<String> financeRecordJSON = new ArrayList<>();
@@ -66,8 +89,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public static String ADD_FINANCE_RECORD_ACTION = "action.add.finance.record";
 
     private DrawerLayout dlMain;
-    private LinearLayout llTitleDate;
-    private TextView tvTitleMonth, tvTitleDay, tvTitle;
+    private LinearLayout llTitleDate,llMenuQQLogin,llMenuQQLogout;
+    private TextView tvTitleMonth, tvTitleDay, tvTitle,tvMenuTitle;
     private RecyclerView rvMenuEventSetList;
 
     private EventSetAdapter mEventSetAdapter;
@@ -91,6 +114,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         tvTitleDay = searchViewById(R.id.tvTitleDay);
         tvTitle = searchViewById(R.id.tvTitle);
         rvMenuEventSetList = searchViewById(R.id.rvMenuEventSetList);
+        tvMenuTitle=searchViewById(R.id.tvMenuTitle);
+        llMenuQQLogin=searchViewById(R.id.llMenuQQLogin);
+        llMenuQQLogout=searchViewById(R.id.llMenuQQLogout);
         searchViewById(R.id.ivMainMenu).setOnClickListener(this);
         searchViewById(R.id.llMenuSchedule).setOnClickListener(this);
         searchViewById(R.id.llMenuNoCategory).setOnClickListener(this);
@@ -99,6 +125,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         searchViewById(R.id.llMenuNetworkDelete).setOnClickListener(this);
         searchViewById(R.id.llMenuNetworkDownload).setOnClickListener(this);
         searchViewById(R.id.llMenuNetworkUpload).setOnClickListener(this);
+        searchViewById(R.id.llMenuQQLogin).setOnClickListener(this);
+        searchViewById(R.id.llMenuQQLogout).setOnClickListener(this);
         initUi();
         initEventSetList();
         gotoScheduleFragment();
@@ -106,6 +134,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         //初始化，将数据变成Json格式，现在有收支记录，日程记录先不弄
         initJson();
+
+        //初始化 QQ登录数据 方法2
+        initQQLoginData();
+        //传入参数APPID和全局Context上下文 方法1
+//        mTencent = Tencent.createInstance(APP_ID,MainActivity.this.getApplicationContext());
+
+        //初始化 显示login按钮 隐藏logout按钮
+        llMenuQQLogin.setVisibility(View.VISIBLE);
+        llMenuQQLogout.setVisibility(View.GONE);
     }
 
     private void initBroadcastReceiver() {
@@ -216,18 +253,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 insertFinanceRecordInMongo();
                 break;
             case R.id.llMenuNetworkDownload:
-                Toast.makeText(MainActivity.this, "已下载云端服务器所有收支记录~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "已下载云端服务器收支记录~", Toast.LENGTH_SHORT).show();
                 //云端数据库操作 下载所有数据 收支记录
                 getALLFinanceRecordFromMongo();
                 break;
             case R.id.llMenuNetworkDelete:
-                Toast.makeText(MainActivity.this, "已删除云端服务器所有收支记录~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "已删除云端服务器收支记录~", Toast.LENGTH_SHORT).show();
                 //云端数据库操作 删除所有数据 收支记录
                 deleteAllFinanceRecordInMongo();
                 break;
+            case R.id.llMenuQQLogin:
+                gotoQQLogin();
+                break;
+            case R.id.llMenuQQLogout:
+                gotoQQLogout();
+                break;
         }
     }
-
 
     //切换 日历fragment
     private void gotoScheduleFragment() {
@@ -320,12 +362,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 if (eventSet != null)
                     mEventSetAdapter.insertItem(eventSet);
             }
-        }
-        else if(requestCode == ADD_FINANCE_RECORD_CODE){
-            if (resultCode == AddFinanceRecordActivity.ADD_FINANCE_RECORD_FINISH){
+        } else if (requestCode == ADD_FINANCE_RECORD_CODE) {
+            if (resultCode == AddFinanceRecordActivity.ADD_FINANCE_RECORD_FINISH) {
                 gotoFinanceFragment();
             }
 
+        }else if(requestCode == Constants.REQUEST_LOGIN){
+            Tencent.handleResultData(data, loginListener);
+
+            System.out.println("开始获取用户信息");
+            userInfo = new UserInfo(MainActivity.this, mTencent.getQQToken());
+            userInfo.getUserInfo(userInfoListener);
         }
     }
 
@@ -383,6 +430,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         //日程记录
     }
+
     //删除云端数据库中所有收支记录
     private void deleteAllFinanceRecordInMongo(){
         new Thread(new Runnable() {
@@ -474,6 +522,210 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
             }
         }).start();
+    }
+
+    /**方法1
+     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
+     * onComplete完成 onError错误 onCancel取消
+     */
+    private class BaseUiListener implements IUiListener {
+
+        @Override
+        public void onComplete(Object response) {
+            Toast.makeText(MainActivity.this, "授权成功", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "response:" + response);
+            JSONObject obj = (JSONObject) response;
+            try {
+                String openID = obj.getString("openid");
+                String accessToken = obj.getString("access_token");
+                String expires = obj.getString("expires_in");
+                mTencent.setOpenId(openID);
+                mTencent.setAccessToken(accessToken,expires);
+                QQToken qqToken = mTencent.getQQToken();
+                mUserInfo = new UserInfo(getApplicationContext(),qqToken);
+                mUserInfo.getUserInfo(new IUiListener() {
+                    @Override
+                    public void onComplete(Object response) {
+                        Log.e("zzz","登录成功"+response.toString());
+                    }
+
+                    @Override
+                    public void onError(UiError uiError) {
+                        Log.e(TAG,"登录失败"+uiError.toString());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e(TAG,"登录取消");
+
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(MainActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(MainActivity.this, "授权取消", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    //初始化QQ登录数据 方法2
+    private void initQQLoginData() {
+        //初始化qq主操作对象
+        mTencent = Tencent.createInstance(APP_ID, MainActivity.this);
+
+        //要所有权限，不然会再次申请增量权限，这里不要设置成get_user_info,add_t
+        scope = "all";
+
+        loginListener = new IUiListener() {
+
+            @Override
+            public void onError(UiError arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            /**
+             * 返回json数据样例
+             *
+             * {"ret":0,"pay_token":"D3D678728DC580FBCDE15722B72E7365",
+             * "pf":"desktop_m_qq-10000144-android-2002-",
+             * "query_authority_cost":448,
+             * "authority_cost":-136792089,
+             * "openid":"015A22DED93BD15E0E6B0DDB3E59DE2D",
+             * "expires_in":7776000,
+             * "pfkey":"6068ea1c4a716d4141bca0ddb3df1bb9",
+             * "msg":"",
+             * "access_token":"A2455F491478233529D0106D2CE6EB45",
+             * "login_cost":499}
+             */
+            @Override
+            public void onComplete(Object value) {
+                // TODO Auto-generated method stub
+
+                System.out.println("有数据返回..");
+                if (value == null) {
+                    return;
+                }
+
+                try {
+                    JSONObject jo = (JSONObject) value;
+
+                    int ret = jo.getInt("ret");
+
+                    System.out.println("json=" + String.valueOf(jo));
+
+                    if (ret == 0) {
+                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+
+                        String openID = jo.getString("openid");
+                        String accessToken = jo.getString("access_token");
+                        String expires = jo.getString("expires_in");
+                        mTencent.setOpenId(openID);
+                        mTencent.setAccessToken(accessToken, expires);
+                    }
+
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+
+            }
+
+            @Override
+            public void onCancel() {
+                // TODO Auto-generated method stub
+
+            }
+        };
+
+        userInfoListener = new IUiListener() {
+
+            @Override
+            public void onError(UiError arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            /**
+             * 返回用户信息样例
+             *
+             * {"is_yellow_year_vip":"0","ret":0,
+             * "figureurl_qq_1":"http:\/\/q.qlogo.cn\/qqapp\/1104732758\/015A22DED93BD15E0E6B0DDB3E59DE2D\/40",
+             * "figureurl_qq_2":"http:\/\/q.qlogo.cn\/qqapp\/1104732758\/015A22DED93BD15E0E6B0DDB3E59DE2D\/100",
+             * "nickname":"攀爬←蜗牛","yellow_vip_level":"0","is_lost":0,"msg":"",
+             * "city":"黄冈","
+             * figureurl_1":"http:\/\/qzapp.qlogo.cn\/qzapp\/1104732758\/015A22DED93BD15E0E6B0DDB3E59DE2D\/50",
+             * "vip":"0","level":"0",
+             * "figureurl_2":"http:\/\/qzapp.qlogo.cn\/qzapp\/1104732758\/015A22DED93BD15E0E6B0DDB3E59DE2D\/100",
+             * "province":"湖北",
+             * "is_yellow_vip":"0","gender":"男",
+             * "figureurl":"http:\/\/qzapp.qlogo.cn\/qzapp\/1104732758\/015A22DED93BD15E0E6B0DDB3E59DE2D\/30"}
+             */
+            @Override
+            public void onComplete(Object arg0) {
+                // TODO Auto-generated method stub
+                if(arg0 == null){
+                    return;
+                }
+                try {
+                    JSONObject jo = (JSONObject) arg0;
+                    int ret = jo.getInt("ret");
+                    System.out.println("json=" + String.valueOf(jo));
+                    String gender = jo.getString("gender");
+                    nickName = jo.getString("nickname");
+
+                    Toast.makeText(MainActivity.this, "你好，" + nickName, Toast.LENGTH_LONG).show();
+                    //设置菜单标题为用户昵称
+                    tvMenuTitle.setText("Hi~"+nickName);
+
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+
+
+            }
+
+            @Override
+            public void onCancel() {
+                // TODO Auto-generated method stub
+
+            }
+        };
+    }
+
+    private void gotoQQLogin(){
+        //如果session无效，就开始登录
+        if (!mTencent.isSessionValid()) {
+            //开始qq授权登录
+            mTencent.login(MainActivity.this, scope, loginListener);
+            //隐藏login按钮 显示logout按钮
+            llMenuQQLogout.setVisibility(View.VISIBLE);
+            llMenuQQLogin.setVisibility(View.GONE);
+        }else {
+            Toast.makeText(MainActivity.this, "你已登录！", Toast.LENGTH_LONG).show();
+        }
+    }
+    private void gotoQQLogout(){
+        if (mTencent != null) {
+            //注销登录
+            mTencent.logout(MainActivity.this);
+            Toast.makeText(MainActivity.this, "你已注销~", Toast.LENGTH_LONG).show();
+            //设置菜单标题
+            tvMenuTitle.setText("奇妙助手");
+            //隐藏 logout按钮 显示login按钮
+            llMenuQQLogin.setVisibility(View.VISIBLE);
+            llMenuQQLogout.setVisibility(View.GONE);
+        }
     }
 
 }

@@ -253,7 +253,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
                     ivSchedulePhoto.setImageBitmap(bitmap);
                     imgPath="/sdcard/"+imgName;
 
-                    //将图片从Bitmap形式变为File形式时进行压缩,保存到数据库中
+                    //将图片从Bitmap变为二进制流,保存到数据库中
                     mSchedule.setPhoto(BitmapToByte.saveBitmap(bitmap));
 
                 } catch (FileNotFoundException e) {

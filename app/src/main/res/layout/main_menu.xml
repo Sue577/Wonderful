@@ -17,7 +17,7 @@
         android:paddingLeft="@dimen/space_20dp"
         android:text="@string/app_name"
         android:textColor="@color/colorWrite"
-        android:textSize="@dimen/text_size_20sp"/>
+        android:textSize="@dimen/text_size_20sp" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -237,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/space_10dp"
                     android:layout_weight="1"
-                    android:text="网络备份"
+                    android:text="云端备份"
                     android:textColor="@color/menu_item_text_color"
                     android:textSize="@dimen/text_size_16sp"/>
 
@@ -323,6 +323,75 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_height"
                 android:background="@color/color_menu_line" />
+
+            <LinearLayout
+                android:id="@+id/llMenuQQLogin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/menu_item_height"
+                android:background="@drawable/menu_item_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_20dp"
+                    android:src="@mipmap/ic_menu_schedule" />
+
+                <TextView
+                    android:id="@+id/tvMenuQQLogin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10dp"
+                    android:layout_weight="1"
+                    android:text="QQ登录"
+                    android:textColor="@color/colorWrite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/space_10dp"
+                    android:src="@mipmap/ic_menu_go" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/color_menu_line" />
+
+            <LinearLayout
+                android:id="@+id/llMenuQQLogout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/menu_item_height"
+                android:background="@drawable/menu_item_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_20dp"
+                    android:src="@mipmap/ic_menu_schedule" />
+
+                <TextView
+                    android:id="@+id/tvMenuQQLogout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10dp"
+                    android:layout_weight="1"
+                    android:text="注销登录"
+                    android:textColor="@color/colorWrite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/space_10dp"
+                    android:src="@mipmap/ic_menu_go" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
