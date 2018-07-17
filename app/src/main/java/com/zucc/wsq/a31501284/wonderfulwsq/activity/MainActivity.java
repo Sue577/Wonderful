@@ -211,17 +211,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 gotoFinanceFragment();
                 break;
             case R.id.llMenuNetworkUpload:
-                Toast.makeText(MainActivity.this, "数据已备份~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "已上传收支记录至云端服务器~", Toast.LENGTH_SHORT).show();
                 //云端数据库操作 插入数据 收支记录
                 insertFinanceRecordInMongo();
                 break;
             case R.id.llMenuNetworkDownload:
-                Toast.makeText(MainActivity.this, "网络备份已下载~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "已下载云端服务器所有收支记录~", Toast.LENGTH_SHORT).show();
                 //云端数据库操作 下载所有数据 收支记录
                 getALLFinanceRecordFromMongo();
                 break;
             case R.id.llMenuNetworkDelete:
-                Toast.makeText(MainActivity.this, "网络备份已删除~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "已删除云端服务器所有收支记录~", Toast.LENGTH_SHORT).show();
                 //云端数据库操作 删除所有数据 收支记录
                 deleteAllFinanceRecordInMongo();
                 break;
@@ -421,7 +421,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         FinanceRecord data= new FinanceRecord();
                         Gson gson = new Gson();
                         data=gson.fromJson(json, FinanceRecord.class);
-                        //    DataSupport.count().find(Data.class);
 
                         //获取litepal数据库中收支记录
                         int flag=1;
@@ -434,7 +433,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 }
                             }
                         }
-                        if(flag==1){ //该记录没有重复 可以存入litepal数据库
+
+                        if(flag==1){ //如果该记录没有重复 可以存入litepal数据库
                             data.save();
                         }
 

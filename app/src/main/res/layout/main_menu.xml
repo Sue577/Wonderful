@@ -238,8 +238,8 @@
                     android:layout_marginLeft="@dimen/space_10dp"
                     android:layout_weight="1"
                     android:text="网络备份"
-                    android:textColor="@color/colorWrite"
-                    android:textSize="@dimen/text_size_18sp" />
+                    android:textColor="@color/menu_item_text_color"
+                    android:textSize="@dimen/text_size_16sp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -273,8 +273,8 @@
                     android:layout_marginLeft="@dimen/space_10dp"
                     android:layout_weight="1"
                     android:text="备份获取"
-                    android:textColor="@color/colorWrite"
-                    android:textSize="@dimen/text_size_18sp" />
+                    android:textColor="@color/menu_item_text_color"
+                    android:textSize="@dimen/text_size_16sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -308,8 +308,8 @@
                     android:layout_marginLeft="@dimen/space_10dp"
                     android:layout_weight="1"
                     android:text="备份删除"
-                    android:textColor="@color/colorWrite"
-                    android:textSize="@dimen/text_size_18sp" />
+                    android:textColor="@color/menu_item_text_color"
+                    android:textSize="@dimen/text_size_16sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"

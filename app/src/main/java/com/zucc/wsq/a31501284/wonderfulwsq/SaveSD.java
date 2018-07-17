@@ -11,9 +11,8 @@ public class SaveSD {
     /**
      * 保存图片到指定文件夹,将图片保存到本地时进行压缩, 即将图片从Bitmap形式变为File形式时进行压缩,
      * 
-     * @param imgName
-     *            图片名称 bitmap 处理图片对象
-     * 
+     * @param imgName 图片名称
+     * @param bitmap 处理图片对象
      * 
      * */
     public static void saveBitmap(String imgName, Bitmap bitmap) {
