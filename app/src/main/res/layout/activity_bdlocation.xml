@@ -20,13 +20,18 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <TextView
+            android:id="@+id/tvPostion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <com.baidu.mapapi.map.MapView
-            android:id="@+id/bmapView"
+            android:id="@+id/mMapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp" />
+            />
+
 
     </LinearLayout>
 

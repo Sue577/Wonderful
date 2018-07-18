@@ -54,7 +54,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
     private View vScheduleColor;
     private EditText etScheduleTitle, etScheduleDesc;
     private ImageView ivScheduleEventSetIcon,ivSchedulePhoto;
-    private TextView tvScheduleEventSet, tvScheduleTime, tvScheduleLocation;
+    private TextView tvScheduleEventSet, tvScheduleTime, tvScheduleLocation,tvScheduleBDLocation;
     private SelectEventSetDialog mSelectEventSetDialog;
     private SelectDateDialog mSelectDateDialog;
     private InputLocationDialog mInputLocationDialog;
@@ -83,6 +83,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
         tvScheduleTime = searchViewById(R.id.tvScheduleTime);
         tvScheduleLocation = searchViewById(R.id.tvScheduleLocation);
         ivSchedulePhoto=searchViewById(R.id.ivSchedulePhoto);
+        tvScheduleBDLocation= searchViewById(R.id.tvScheduleBDLocation);
     }
 
     @Override
@@ -278,7 +279,9 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
 
         if(requestCode==BDLocation_CODE){
             if(resultCode== BDLocationActivity.BDLocation_FINISH){
-
+                tvScheduleBDLocation.setText("浙江省杭州市拱墅区湖州街");
+                tvScheduleLocation.setText("浙江省杭州市拱墅区湖州街");
+                mSchedule.setLocation(tvScheduleLocation.getText().toString());
             }
         }
 

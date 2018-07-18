@@ -75,7 +75,7 @@
     <string name="date_format">yyyy年MM月dd日 HH:mm</string>
     <string name="date_format_no_time">%1$s年%2$s月%3$s日</string>
     <string name="click_here_select_date">点击此处选择时间</string>
-    <string name="click_here_select_location">点击此处选择地点</string>
+    <string name="click_here_select_location">点击此处填写地点</string>
     <string name="click_input_location">点击输入地点</string>
     <string name="add_location">添加地点</string>
     <string name="select_event_set">选择事件清单</string>
