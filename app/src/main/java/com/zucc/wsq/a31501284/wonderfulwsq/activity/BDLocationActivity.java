@@ -133,7 +133,7 @@ public class BDLocationActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 currentPosition =  new StringBuilder();
-                currentPosition.append("维度：").append(bdLocation.getLatitude()).append("\n");
+                currentPosition.append("纬度：").append(bdLocation.getLatitude()).append("\n");
                 currentPosition.append("经度：").append(bdLocation.getLongitude()).append("\n");
                 currentPosition.append("国家：").append(bdLocation.getCountry()).append("\n");
                 currentPosition.append("省：").append(bdLocation.getProvince()).append("\n");

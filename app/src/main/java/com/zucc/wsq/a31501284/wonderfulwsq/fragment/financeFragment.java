@@ -77,14 +77,14 @@ public class financeFragment extends Fragment{
     private void initList() {
 
         //  Connector.getDatabase();
-        List<FinanceRecord> detailIncome = DataSupport.select("financeTypeImage","financeTypeName","financePrice","financeTime").where("financePrice>0").order("financeTime asc").find(FinanceRecord.class);
+        List<FinanceRecord> detailIncome = DataSupport.select("financeTypeImage","financeTypeName","financePrice","financeTime").where("financePrice>0").order("financeTime desc").find(FinanceRecord.class);
         if(detailIncome!=null) {
             for (FinanceRecord d : detailIncome) {
                 balanceMonth=balanceMonth+d.getFinancePrice();
                 listIncome.add(d);
             }
         }
-        List<FinanceRecord> detailPay = DataSupport.select("financeTypeImage","financeTypeName","financePrice","financeTime").where("financePrice<0").order("financeTime asc").find(FinanceRecord.class);
+        List<FinanceRecord> detailPay = DataSupport.select("financeTypeImage","financeTypeName","financePrice","financeTime").where("financePrice<0").order("financeTime desc").find(FinanceRecord.class);
         if(detailPay!=null) {
             for (FinanceRecord d : detailPay) {
                 balanceMonth=balanceMonth+d.getFinancePrice();

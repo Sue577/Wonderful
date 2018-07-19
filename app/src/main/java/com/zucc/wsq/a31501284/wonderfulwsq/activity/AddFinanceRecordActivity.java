@@ -22,7 +22,6 @@ public class AddFinanceRecordActivity extends BaseActivity implements View.OnCli
 
     public static int ADD_FINANCE_RECORD_CANCEL = 1;
     public static int ADD_FINANCE_RECORD_FINISH = 2;
-    public static String FINANCE_RECORD_OBJ = "finance.record.obj";
 
     private FinanceRecord financeRecord= new FinanceRecord();
 
